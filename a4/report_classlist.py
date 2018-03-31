@@ -10,25 +10,25 @@
 import psycopg2, sys
 
 def print_header(course_code, course_name, term, instructor_name):
-	print("Class list for %s (%s)"%(str(course_code), str(course_name)) )
-	print("  Term %s"%(str(term), ) )
-	print("  Instructor: %s"%(str(instructor_name), ) )
-	
+    print("Class list for %s (%s)"%(str(course_code), str(course_name)) )
+    print("  Term %s"%(str(term), ) )
+    print("  Instructor: %s"%(str(instructor_name), ) )
+    
 def print_row(student_id, student_name, grade):
-	if grade is not None:
-		print("%10s %-25s   GRADE: %s"%(str(student_id), str(student_name), str(grade)) )
-	else:
-		print("%10s %-25s"%(str(student_id), str(student_name),) )
+    if grade is not None:
+        print("%10s %-25s   GRADE: %s"%(str(student_id), str(student_name), str(grade)) )
+    else:
+        print("%10s %-25s"%(str(student_id), str(student_name),) )
 
 def print_footer(total_enrolled, max_capacity):
-	print("%s/%s students enrolled"%(str(total_enrolled),str(max_capacity)) )
+    print("%s/%s students enrolled"%(str(total_enrolled),str(max_capacity)) )
 
 
 ''' The lines below would be helpful in your solution
 if len(sys.argv) < 3:
-	print('Usage: %s <course code> <term>'%sys.argv[0], file=sys.stderr)
-	sys.exit(0)
-	
+    print('Usage: %s <course code> <term>'%sys.argv[0], file=sys.stderr)
+    sys.exit(0)
+    
 course_code, term = sys.argv[1:3]
 '''
 

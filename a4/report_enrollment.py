@@ -10,7 +10,7 @@
 import psycopg2, sys
 
 def print_row(term, course_code, course_name, instructor_name, total_enrollment, maximum_capacity):
-	print("%6s %10s %-35s %-25s %s/%s"%(str(term), str(course_code), str(course_name), str(instructor_name), str(total_enrollment), str(maximum_capacity)) )
+    print("%6s %10s %-35s %-25s %s/%s"%(str(term), str(course_code), str(course_name), str(instructor_name), str(total_enrollment), str(maximum_capacity)) )
 
 # Mockup: Print some data for a few made up classes
 

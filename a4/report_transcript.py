@@ -12,19 +12,19 @@ import psycopg2, sys
 
 
 def print_header(student_id, student_name):
-	print("Transcript for %s (%s)"%(str(student_id), str(student_name)) )
-	
+    print("Transcript for %s (%s)"%(str(student_id), str(student_name)) )
+    
 def print_row(course_term, course_code, course_name, grade):
-	if grade is not None:
-		print("%6s %10s %-35s   GRADE: %s"%(str(course_term), str(course_code), str(course_name), str(grade)) )
-	else:
-		print("%6s %10s %-35s   (NO GRADE ASSIGNED)"%(str(course_term), str(course_code), str(course_name)) )
+    if grade is not None:
+        print("%6s %10s %-35s   GRADE: %s"%(str(course_term), str(course_code), str(course_name), str(grade)) )
+    else:
+        print("%6s %10s %-35s   (NO GRADE ASSIGNED)"%(str(course_term), str(course_code), str(course_name)) )
 
 ''' The lines below would be helpful in your solution
 if len(sys.argv) < 2:
-	print('Usage: %s <student id>'%sys.argv[0], file=sys.stderr)
-	sys.exit(0)
-	
+    print('Usage: %s <student id>'%sys.argv[0], file=sys.stderr)
+    sys.exit(0)
+    
 student_id = sys.argv[1]
 '''
 
