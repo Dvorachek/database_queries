@@ -54,13 +54,13 @@ create table enrollment(
     
     primary key(student_name, course_name, course_term),
     foreign key(student_name) references students(student_name),
-    foreign key(course_name, course_term) references course_offering(course_name, course_term),
+    foreign key(course_name, course_term) references course_offering(course_name, course_term)
     
     --check capacity
     );
 
 create table grades(
-    student_name varchar(255)
+    student_name varchar(255),
     course_name varchar(128), --
     term_code varchar(6),  --
     grade int,
