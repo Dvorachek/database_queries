@@ -7,19 +7,22 @@
 
 rollback;
 
+drop table if exists grades;
+drop table if exists enrollment;
+drop table if exists course_offering;
 drop table if exists students;
 drop table if exists courses;
-drop table if exists course_offering;
-drop table if exists enrollment;
-drop table if exists grades;
+
+
+
 
 create table students(
     student_name varchar(255),
-    id varchar(9),
+    student_id varchar(9),
     
-    primary key(id),
+    primary key(student_id),
     
-    check(length(id) = 9),
+    check(length(student_id) = 9),
     check(length(student_name) > 0 and length(student_name) < 256)
     );
 
@@ -48,25 +51,25 @@ create table course_offering(
     );
 
 create table enrollment(
-    student_name varchar(255),
+    student_id varchar(9),
     course_name varchar(128),
     course_term varchar(6),
     
-    primary key(student_name, course_name, course_term),
-    foreign key(student_name) references students(student_name),
+    primary key(course_name, course_term),
+    foreign key(student_id) references students(student_id),
     foreign key(course_name, course_term) references course_offering(course_name, course_term)
     
     --check capacity
     );
 
 create table grades(
-    student_name varchar(255),
+    student_id varchar(9),
     course_name varchar(128), --
     term_code varchar(6),  --
     grade int,
     
-    primary key(student_name, course_name, term_code),
-    foreign key(student_name, course_name, term_code) references enrollment(student_name, course_name, term_code), --
+    primary key(student_id, course_name, term_code),
+    foreign key(student_id, course_name, term_code) references enrollment(student_id, course_name, term_code), --
     
     check(grade <= 100 and grade >=0)
     );
