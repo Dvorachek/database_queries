@@ -38,8 +38,8 @@ create table course_offering(
     course_code varchar(10),
     course_name varchar(128),
     term_code varchar(6),
-    capacity integer,
     instructor_name varchar(255),
+    capacity integer,
     
     primary key(course_name, term_code),
     foreign key(course_code) references courses(course_code),
@@ -75,7 +75,13 @@ create table grades(
     check(grade <= 100 and grade >=0)
     );
 
+insert into courses values('CSC 495A');
 
+select * from courses;
+
+insert into courses values('CSC 495A');
+
+select * from courese;
 
     
 -- course prerequisite code taken from..
@@ -84,8 +90,8 @@ create table grades(
 
 drop table if exists prerequisites;
 
-create table prerequisites( course_code varchar(10), 
-							prereq_code varchar(10), 
+create table prerequisites( course_code varchar(10),
+							prereq_code varchar(10),
 							primary key(course_code,
 										prereq_code));
 
