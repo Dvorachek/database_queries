@@ -90,12 +90,13 @@ select * from courses;
 
 drop table if exists prerequisites;
 
-create table prerequisites( course_code varchar(10),
-							prereq_code varchar(10),
-                            
-							primary key(course_code, prereq_code),
-                            foreign key(course_code) references courses(course_code)  --
-                          );
+create table prerequisites(
+    course_code varchar(10),
+    prereq_code varchar(10),
+    
+    primary key(course_code, prereq_code),
+    foreign key(course_code) references courses(course_code)  --
+    );
 
 /*
 insert into prerequisites values ('CSC 115', 'CSC 110');

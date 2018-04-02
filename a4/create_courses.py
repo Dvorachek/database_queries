@@ -59,8 +59,8 @@ with open(input_filename) as f:
         #Do something with the data here
         #Make sure to catch any exceptions that occur and roll back the transaction if a database error occurs.
         err(cursor.execute("insert into courses values( %s );", (code)), conn)
-        err(cursor.execute("insert into course_offerings( %s, %s, %s, %s, %s );", (code, name, term, instructor, capacity)), conn)
-        [err(cursor.execure("insert into course_offerings( %s, %s );", (prerequisites[0], pre_req)), conn) for pre_req in prerequisites[1:]]
+        err(cursor.execute("insert into course_offerings values( %s, %s, %s, %s, %s );", (code, name, term, instructor, capacity)), conn)
+        [err(cursor.execure("insert into prerequisites values( %s, %s );", (prerequisites[0], pre_req)), conn) for pre_req in prerequisites[1:]]
         
       
 conn.commit()
