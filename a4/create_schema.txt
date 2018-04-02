@@ -81,7 +81,7 @@ select * from courses;
 
 insert into courses values('CSC 495A');
 
-select * from courese;
+select * from courses;
 
     
 -- course prerequisite code taken from..
@@ -92,9 +92,12 @@ drop table if exists prerequisites;
 
 create table prerequisites( course_code varchar(10),
 							prereq_code varchar(10),
-							primary key(course_code,
-										prereq_code));
+                            
+							primary key(course_code, prereq_code),
+                            foreign key(course_code) references courses(course_code)  --
+                          );
 
+/*
 insert into prerequisites values ('CSC 115', 'CSC 110');
 insert into prerequisites values ('CSC 116', 'CSC 111');
 insert into prerequisites values ('CSC 225', 'CSC 115');
@@ -134,3 +137,4 @@ with recursive
   			   	  	prerequisites as P2
   			   	  on P1.prereq_code = P2.course_code)
 select * from all_prereqs where course_code = 'SENG 474';
+*/
