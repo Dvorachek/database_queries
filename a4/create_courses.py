@@ -23,7 +23,7 @@ conn = psycopg2.connect(dbname=psql_db, user=psql_user, password=psql_password, 
 
 cursor = conn.cursor()
 
-def err(func, conn):
+def err(func, conn):  # created a wrapper for error handling.. because who would really want to write this more than once?
     def wrapper(*args, **kwargs):
         try:
             func(*args, **kwargs)

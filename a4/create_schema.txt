@@ -74,15 +74,6 @@ create table grades(
  
     check(grade <= 100 and grade >=0)
     );
-
-insert into courses values('CSC 495A');
-
-select * from courses;
-
-insert into courses values('CSC 495A');
-
-select * from courses;
-
     
 -- course prerequisite code taken from..
 -- B. Bird - 02/28/2018
@@ -97,6 +88,44 @@ create table prerequisites(
     primary key(course_code, prereq_code),
     foreign key(course_code) references courses(course_code)  --
     );
+    
+
+drop function if exists enrollment_possible_constraint_trigger();
+
+create function enrollment_possible_constraint_trigger()
+returns trigger as
+$BODY$
+begin
+if (select count(*)
+    from (
+        with recursive
+            all_prereqs as (select * from prerequisites
+                            union
+                            select P1.course_code, P2.prereq_code
+                            from 
+                                all_prereqs as P1
+                              inner join
+                                prerequisites as P2
+                              on P1.prereq_code = P2.course_code)
+        select distinct prereq_code from all_prereqs where course_code = new.course_code
+          except
+        select distinct course_code as prereq_code
+        from grades natural join courese_offering
+        where student_id = new.student_id
+        and grade >= 50) as X) > 0
+then
+    raise exeption 'Student does not meet the prerequisites for the course.';
+end if;
+return new;
+end
+$BODY$
+language plpgsql;
+
+create constraint trigger enrollment_possible_constraint
+    after insert or update on enrollment
+    deferrable
+    for each row
+    execute procedure enrollment_possible_constraint_trigger();
 
 /*
 insert into prerequisites values ('CSC 115', 'CSC 110');
