@@ -113,15 +113,34 @@ if (select count(*)
         and grade >= 50) as X) > 0
 then
     raise exception 'Student does not meet the prerequisites for the course.';
+end if;
+return new;
+end
+$BODY$
+language plpgsql;
 
+create constraint trigger enrollment_possible_constraint
+    after insert or update on enrollment
+    deferrable
+    for each row
+    execute procedure enrollment_possible_constraint_trigger();
+
+
+    
+drop function if exists check_capacity_constraint_trigger();
+
+create function check_capacity_constraint_trigger()
+returns trigger as
+$BODY$
+begin
 if (select count(*)
     from enrollment
-    and course_code = new.course_code
+    where course_code = new.course_code
     and term_code = new.term_code)
     =
     (select capacity
     from coures_offering
-    and course_code = new.course_code
+    where course_code = new.course_code
     and term_code = new.term_code)
 then
     raise exception 'Course Offering is already at maximum capacity.';
@@ -132,13 +151,11 @@ end
 $BODY$
 language plpgsql;
 
-create constraint trigger enrollment_possible_constraint
-    after insert or update on enrollment -- maybe just insert
+create constraint trigger check_capacity_constraint
+    after insert on enrollment
     deferrable
     for each row
-    execute procedure enrollment_possible_constraint_trigger();
-
-
+    execute procedure check_capacity_constraint_trigger();
     
 /*
 insert into prerequisites values ('CSC 115', 'CSC 110');
