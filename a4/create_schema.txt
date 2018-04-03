@@ -11,6 +11,7 @@ drop table if exists grades;
 drop table if exists enrollment;
 drop table if exists course_offering;
 drop table if exists students;
+drop table if exists prerequisites;
 drop table if exists courses;
 
 
@@ -41,7 +42,7 @@ create table course_offering(
     instructor_name varchar(255),
     capacity integer,
     
-    primary key(course_name, term_code),
+    primary key(course_code, term_code),
     foreign key(course_code) references courses(course_code),
     
     check(length(course_name) >= 1),
@@ -52,25 +53,24 @@ create table course_offering(
 
 create table enrollment(
     student_id varchar(9),
-    course_name varchar(128),
+    course_code varchar(10),
     term_code varchar(6),
     
-    primary key(course_name, term_code),
+    primary key(student_id, course_code, term_code),
     foreign key(student_id) references students(student_id),
-    foreign key(course_name, term_code) references course_offering(course_name, term_code)
+    foreign key(course_code, term_code) references course_offering(course_code, term_code)
     
     --check capacity
     );
 
 create table grades(
     student_id varchar(9),
-    course_name varchar(128), --
+    course_code varchar(10), --
     term_code varchar(6),  --
     grade int,
     
-    primary key(student_id, course_name, term_code),
-    foreign key(course_name, term_code) references enrollment(course_name, term_code), --
-    foreign key(student_id) references students(student_id),
+    primary key(student_id, course_code, term_code),
+    foreign key(student_id, course_code, term_code) references enrollment(student_id, course_code, term_code), --
  
     check(grade <= 100 and grade >=0)
     );
@@ -78,8 +78,6 @@ create table grades(
 -- course prerequisite code taken from..
 -- B. Bird - 02/28/2018
 -- ..and modified
-
-drop table if exists prerequisites;
 
 create table prerequisites(
     course_code varchar(10),
@@ -114,7 +112,20 @@ if (select count(*)
         where student_id = new.student_id
         and grade >= 50) as X) > 0
 then
-    raise exeption 'Student does not meet the prerequisites for the course.';
+    raise exception 'Student does not meet the prerequisites for the course.';
+
+if (select count(*)
+    from enrollment
+    and course_code = new.course_code
+    and term_code = new.term_code)
+    =
+    (select capacity
+    from coures_offering
+    and course_code = new.course_code
+    and term_code = new.term_code)
+then
+    raise exception 'Course Offering is already at maximum capacity.';
+
 end if;
 return new;
 end
@@ -122,11 +133,13 @@ $BODY$
 language plpgsql;
 
 create constraint trigger enrollment_possible_constraint
-    after insert or update on enrollment
+    after insert or update on enrollment -- maybe just insert
     deferrable
     for each row
     execute procedure enrollment_possible_constraint_trigger();
 
+
+    
 /*
 insert into prerequisites values ('CSC 115', 'CSC 110');
 insert into prerequisites values ('CSC 116', 'CSC 111');
