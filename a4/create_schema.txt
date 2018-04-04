@@ -108,7 +108,7 @@ if (select count(*)
         select distinct prereq_code from all_prereqs where course_code = new.course_code
           except
         select distinct course_code as prereq_code
-        from grades natural join courese_offering
+        from grades natural join course_offering
         where student_id = new.student_id
         and grade >= 50) as X) > 0
 then
