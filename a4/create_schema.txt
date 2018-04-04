@@ -155,10 +155,14 @@ create constraint trigger check_capacity_constraint
     for each row
     execute procedure check_capacity_constraint_trigger();
 
+
+
+
+
 drop function if exists invalid_deletion_constraint_trigger();
 
 create function invalid_deletion_constraint_trigger()
-return trigger as
+returns trigger as
 $BODY$
 begin
 if old.grade != NULL
@@ -185,7 +189,7 @@ create constraint trigger invalid_deletion_constraint
 drop function if exists student_exists_constraint_trigger();
 
 create function student_exists_constraint_trigger()
-return trigger as
+returns trigger as
 $BODY$
 begin
 if (select count(*) from students where student_name = new.student_name and student_id = new.student_id) > 0
@@ -207,7 +211,7 @@ create constraint trigger student_exists_constraint
 drop function if exists student_enrolled_constraint_trigger();
 
 create function student_enrolled_constraint_trigger()
-return trigger as
+returns trigger as
 $BODY$
 begin
 if (select count(*) 
