@@ -138,7 +138,7 @@ if (select count(*)
     and term_code = new.term_code)
     =
     (select capacity
-    from coures_offering
+    from course_offering
     where course_code = new.course_code
     and term_code = new.term_code)
 then
@@ -233,7 +233,16 @@ create constraint trigger student_enrolled_constraint
     execute procedure student_enrolled_constraint_trigger();
 
 
+insert into students values ('Dylan', 'V00863468');
+insert into students values ('Justin', 'V00863469');
+insert into students values ('Chad', 'V00863470');
+insert into students values ('Ethan', 'V00863471');
 
+insert into courses values ('CSC 110');
+
+insert into course_offering values ('CSC 110', 'Fundamentals 1', '201709', 'Bill', 3);
+
+insert into enrollment values ('V00863468', 'CSC 110', '201709');
 
 /*
 insert into prerequisites values ('CSC 115', 'CSC 110');
