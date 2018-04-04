@@ -140,7 +140,7 @@ if (select count(*)
     (select capacity
     from course_offering
     where course_code = new.course_code
-    and term_code = new.term_code)
+    and term_code = new.term_code) + 1
 then
     raise exception 'Course Offering is already at maximum capacity.';
 
@@ -243,6 +243,9 @@ insert into courses values ('CSC 110');
 insert into course_offering values ('CSC 110', 'Fundamentals 1', '201709', 'Bill', 3);
 
 insert into enrollment values ('V00863468', 'CSC 110', '201709');
+insert into enrollment values ('V00863469', 'CSC 110', '201709');
+insert into enrollment values ('V00863470', 'CSC 110', '201709');
+
 
 /*
 insert into prerequisites values ('CSC 115', 'CSC 110');
