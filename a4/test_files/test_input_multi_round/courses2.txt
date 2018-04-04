@@ -1,0 +1,3 @@
+CSC 110,Fundamentals of Programming: I,201801,LillAnne Jackson,150
+CSC 115,Fundamentals of Programming: II,201801,Mike Zastre,200,CSC 110
+MATH 122,Logic and Fundamentals,201801,Gary McGillivray,100

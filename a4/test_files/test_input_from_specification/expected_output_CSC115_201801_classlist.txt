@@ -1,0 +1,6 @@
+Class list for CSC 115 (Fundamentals of Programming: II)
+  Term 201801
+  Instructor: Mike Zastre
+ V00123456 Alastair Avocado            GRADE: 83
+ V00123457 Rebecca Raspberry        
+2/200 students enrolled

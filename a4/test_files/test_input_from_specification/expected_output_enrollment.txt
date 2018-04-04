@@ -1,0 +1,7 @@
+201709    CSC 110 Fundamentals of Programming: I      Jens Weber                1/200
+201709    CSC 115 Fundamentals of Programming: II     Tibor van Rooij           0/100
+201709   MATH 122 Logic and Fundamentals              Gary McGillivray          1/100
+201801    CSC 110 Fundamentals of Programming: I      LillAnne Jackson          0/150
+201801    CSC 115 Fundamentals of Programming: II     Mike Zastre               2/200
+201801   MATH 122 Logic and Fundamentals              Gary McGillivray          1/100
+201805    CSC 225 Algorithms and Data Structures: I   Bill Bird                 2/100

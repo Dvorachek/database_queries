@@ -1,0 +1,6 @@
+Class list for CSC 225 (Algorithms and Data Structures: I)
+  Term 201805
+  Instructor: Bill Bird
+ V00123456 Alastair Avocado            GRADE: 70
+ V00123457 Rebecca Raspberry           GRADE: 68
+2/100 students enrolled

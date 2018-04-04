@@ -1,0 +1,4 @@
+Transcript for V00123456 (Alastair Avocado)
+201709   MATH 122 Logic and Fundamentals                GRADE: 67
+201801    CSC 115 Fundamentals of Programming: II       GRADE: 83
+201805    CSC 225 Algorithms and Data Structures: I     GRADE: 79

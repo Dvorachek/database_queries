@@ -1,0 +1,7 @@
+CSC 106,The Practice of Computer Science,201709,Bill Bird,200
+CSC 187,Introduction to Recursion,201709,Franz Kafka,200
+CSC 188,Introduction to Recursion: II,201709,Franz Kafka,200,CSC 187
+CSC 187,Introduction to Recursion,201801,Gregor Samsa,200
+CSC 188,Introduction to Recursion: II,201801,Franz Kafka,200,CSC 187
+CSC 187,Introduction to Recursion,201805,Gregor Samsa,200,CSC 188
+CSC 188,Introduction to Recursion: II,201805,Franz Kafka,200

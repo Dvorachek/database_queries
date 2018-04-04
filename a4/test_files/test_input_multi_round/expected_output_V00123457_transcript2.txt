@@ -1,0 +1,6 @@
+Transcript for V00123457 (Rebecca Raspberry)
+201709    CSC 110 Fundamentals of Programming: I        GRADE: 80
+201709   MATH 122 Logic and Fundamentals                GRADE: 48
+201801    CSC 115 Fundamentals of Programming: II       GRADE: 95
+201801   MATH 122 Logic and Fundamentals                GRADE: 61
+201805    CSC 225 Algorithms and Data Structures: I     GRADE: 68
