@@ -39,7 +39,7 @@ row = cursor.fetchone()
 while row:
     term, course_code, course_name, instructor_name, total_enrollment, maximum_capacity = row
     print_row(term, course_code, course_name, instructor_name, total_enrollment, maximum_capacity)
-    cursor.fetchone()
+    row = cursor.fetchone()
     rows_found += 1
 
 print("Read %d rows"%rows_found)
