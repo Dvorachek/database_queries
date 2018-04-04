@@ -15,7 +15,7 @@ input_filename = sys.argv[1]
 # Open your DB connection here
 psql_user = 'dvorache'  # when I started at uvic the maximum character lenght was 8.. I'm glad it's now been upgraded
 psql_db = 'dvorache'
-psql_password = ''
+psql_password = 'pineapple'
 psql_server = 'studdb2.csc.uvic.ca'
 psql_port = 5432
 
