@@ -156,9 +156,6 @@ create constraint trigger check_capacity_constraint
     execute procedure check_capacity_constraint_trigger();
 
 
-
-
-
 drop function if exists invalid_deletion_constraint_trigger();
 
 create function invalid_deletion_constraint_trigger()
