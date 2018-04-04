@@ -121,7 +121,6 @@ language plpgsql;
 
 create constraint trigger enrollment_possible_constraint
     after insert or update on enrollment
-    deferrable
     for each row
     execute procedure enrollment_possible_constraint_trigger();
 
@@ -153,10 +152,85 @@ language plpgsql;
 
 create constraint trigger check_capacity_constraint
     after insert on enrollment
-    deferrable
     for each row
     execute procedure check_capacity_constraint_trigger();
-    
+
+drop function if exists invalid_deletion_constraint_trigger();
+
+create function invalid_deletion_constraint_trigger()
+return trigger as
+$BODY$
+begin
+if old.grade != NULL
+then
+    raise exception 'Cannot drop a course once a final grade has been assigned';
+end if;
+return new;
+end
+$BODY$
+language plpgsql;
+
+create constraint trigger invalid_deletion_constraint
+    after delete on grades
+    for each row
+    execute procedure invalid_deletion_constraint_trigger();
+
+
+
+
+
+
+
+
+drop function if exists student_exists_constraint_trigger();
+
+create function student_exists_constraint_trigger()
+return trigger as
+$BODY$
+begin
+if (select count(*) from students where student_name = new.student_name and student_id = new.student_id) > 0
+then
+    return NULL;
+end if;
+return new;
+end
+$BODY$
+language plpgsql;
+
+create constraint trigger student_exists_constraint
+    after insert on students
+    for each row
+    execute procedure student_exists_constraint_trigger();
+
+
+
+drop function if exists student_enrolled_constraint_trigger();
+
+create function student_enrolled_constraint_trigger()
+return trigger as
+$BODY$
+begin
+if (select count(*) 
+    from enrollment 
+    where student_id = new.student_id
+    and course_code = new.course_code
+    and term_code = new.term_code) > 0
+then
+    return NULL;
+end if;
+return new;
+end
+$BODY$
+language plpgsql;
+
+create constraint trigger student_enrolled_constraint
+    after insert on enrollment
+    for each row
+    execute procedure student_enrolled_constraint_trigger();
+
+
+
+
 /*
 insert into prerequisites values ('CSC 115', 'CSC 110');
 insert into prerequisites values ('CSC 116', 'CSC 111');
