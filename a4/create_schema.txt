@@ -109,7 +109,7 @@ if (select count(*)
         with recursive
             all_prereqs as (select * from prerequisites
                             union
-                            select P1.course_code, P2.prereq_code
+                            select P1.course_code, P1.term_code, P2.prereq_code
                             from 
                                 all_prereqs as P1
                               inner join
