@@ -280,7 +280,7 @@ create trigger offering_exists_constraint
     for each row
     execute procedure offering_exists_constraint_trigger();
     
-    
+   /* 
 drop function if exists grade_exists_constraint_trigger();
 
 create function grade_exists_constraint_trigger()
@@ -304,7 +304,7 @@ create trigger grade_exists_constraint
     before insert on grades
     for each row
     execute procedure grade_exists_constraint_trigger();
-    
+    */
 --000000000000000000000000000000000000000000000000000000000000000
 drop function if exists prereq_exists_constraint_trigger();
 
