@@ -84,9 +84,7 @@ e(cursor.execute("""select *
 row = cursor.fetchone()
 
 
-student_id, _, _, course_name, instructor_name, capacity, student_name = row[:6]
-
-grade = None if len(row) < 7 else row[6]
+_, _, _, course_name, instructor_name, capacity, _ = row[:6]
 
 print_header(course_code, course_name, term, instructor_name)
 
@@ -97,6 +95,7 @@ while row:
     grade = None if len(row) < 7 else row[6]
     print_row(student_id, student_name, grade)
     row = cursor.fetchone()
+    
     
     
 print_footer(row_count, capacity)
