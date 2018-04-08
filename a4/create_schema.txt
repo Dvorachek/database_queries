@@ -115,7 +115,7 @@ if (select count(*)
                               inner join
                                 prerequisites as P2
                               on P1.prereq_code = P2.course_code)
-        select distinct prereq_code from all_prereqs where course_code = new.course_code and term_code = new.term_code
+        select distinct prereq_code from all_prereqs where course_code = new.course_code and term_code <= new.term_code
           except
         select distinct course_code as prereq_code
         from grades natural join course_offering
