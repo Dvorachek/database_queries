@@ -15,7 +15,7 @@ input_filename = sys.argv[1]
 # Open your DB connection here
 psql_user = 'dvorache'  # when I started at uvic the maximum character lenght was 8.. I'm glad it's now been upgraded
 psql_db = 'dvorache'
-psql_password = ''
+psql_password = 'pineapple'
 psql_server = 'studdb2.csc.uvic.ca'
 psql_port = 5432
 
@@ -32,12 +32,16 @@ def e(func, conn):  # created a wrapper for error handling.. because who would r
             print("Caught a ProgrammingError:",file=sys.stderr)
             print(err,file=sys.stderr)
             conn.rollback()
+            cursor.close()
+            conn.close()
             sys.exit(1)
         except psycopg2.IntegrityError as err: 
             #IntegrityError occurs when a constraint (primary key, foreign key, check constraint or trigger constraint) is violated.
             print("Caught an IntegrityError:",file=sys.stderr)
             print(err,file=sys.stderr)
             conn.rollback()
+            cursor.close()
+            conn.close()
             sys.exit(1)
         except psycopg2.InternalError as err:  
             #InternalError generally represents a legitimate connection error, but may occur in conjunction with user defined functions.
@@ -46,6 +50,8 @@ def e(func, conn):  # created a wrapper for error handling.. because who would r
             print("Caught an IntegrityError:",file=sys.stderr)
             print(err,file=sys.stderr)
             conn.rollback()
+            cursor.close()
+            conn.close()
             sys.exit(1)
 
 with open(input_filename) as f:
