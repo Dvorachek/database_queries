@@ -71,8 +71,9 @@ e(cursor.execute("""select student_id, student_name, course_code, term_code, cou
     where student_id = %s;""", (student_id,)), conn)
 
 row = cursor.fetchone()
-_,student_name,_,_,_ = row[:5]
-print_header(student_id, student_name)
+if row:
+    _,student_name,_,_,_ = row[:5]
+    print_header(student_id, student_name)
 while row:
     grade = None if len(row) < 5 else row[5]
     _,_,course_code,term,course_name = row[:5]
