@@ -65,7 +65,7 @@ with open(input_filename) as f:
             e(cursor.execute("insert into enrollment values( %s, %s, %s );", (student_id, course_code, term)), conn)
             e(cursor.execute("insert into grades values( %s, %s, %s, NULL );", (student_id, course_code, term)), conn)
         elif add_or_drop == 'DROP': 
-            e(cursor.execure("delete from grades where student_id = %s and course_code = %s and term_code = %s;", (student_id, course_code, term)), conn)
+            e(cursor.execute("delete from grades where student_id = %s and course_code = %s and term_code = %s;", (student_id, course_code, term)), conn)
             e(cursor.execute("delete from enrollment where student_id = %s and course_code = %s and term_code = %s;", (student_id, course_code, term)), conn)
 
 conn.commit()
