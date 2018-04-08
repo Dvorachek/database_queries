@@ -81,10 +81,11 @@ create table grades(
 
 create table prerequisites(
     course_code varchar(10),
+    term_code varchar(6),
     prereq_code varchar(10),
     
-    primary key(course_code, prereq_code),
-    foreign key(course_code) references courses(course_code)  --
+    primary key(course_code, term_code, prereq_code),
+    foreign key(course_code, term_code) references course_offering(course_code, term_code)  --
     );
     
 
@@ -105,7 +106,7 @@ if (select count(*)
                               inner join
                                 prerequisites as P2
                               on P1.prereq_code = P2.course_code)
-        select distinct prereq_code from all_prereqs where course_code = new.course_code
+        select distinct prereq_code from all_prereqs where course_code = new.course_code and term_code = new.term_code
           except
         select distinct course_code as prereq_code
         from grades natural join course_offering
