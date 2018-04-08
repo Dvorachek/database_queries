@@ -7,11 +7,11 @@
 
 rollback;
 
+drop table if exists prerequisites;
 drop table if exists grades;
 drop table if exists enrollment;
 drop table if exists course_offering;
 drop table if exists students;
-drop table if exists prerequisites;
 drop table if exists courses;
 
 
@@ -197,8 +197,9 @@ begin
 if (select count(*) from students where student_name = new.student_name and student_id = new.student_id) > 0
 then
     return NULL;
+else
+    return new;
 end if;
-return new;
 end
 $BODY$
 language plpgsql;
@@ -218,14 +219,15 @@ begin
 if (select count(*) from courses where course_code = new.course_code) > 0
 then
     return NULL;
+else
+    return new;
 end if;
-return new;
 end
 $BODY$
 language plpgsql;
 
 create constraint trigger course_exists_constraint
-    after insert on students
+    after insert on courses
     for each row
     execute procedure course_exists_constraint_trigger();
 
@@ -244,8 +246,9 @@ if (select count(*)
     and term_code = new.term_code) > 0
 then
     return NULL;
+else
+    return new;
 end if;
-return new;
 end
 $BODY$
 language plpgsql;
