@@ -134,8 +134,8 @@ $BODY$
 language plpgsql;
 
 
-create constraint trigger enrollment_possible_constraint
-    after insert or update on enrollment
+create trigger enrollment_possible_constraint
+    before insert or update on enrollment
     for each row
     execute procedure enrollment_possible_constraint_trigger();
 
