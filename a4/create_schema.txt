@@ -77,7 +77,7 @@ create table grades(
     primary key(student_id, course_code, term_code),
     foreign key(student_id, course_code, term_code) references enrollment(student_id, course_code, term_code)
         on update cascade
-        on delete restrict, --
+        on delete cascade, --
  
     check(grade <= 100 and grade >=0)
     );
@@ -184,8 +184,8 @@ end
 $BODY$
 language plpgsql;
 
-create constraint trigger invalid_deletion_constraint
-    after delete on grades
+create trigger invalid_deletion_constraint
+    before delete on grades
     for each row
     execute procedure invalid_deletion_constraint_trigger();
 
@@ -302,7 +302,7 @@ $BODY$
 language plpgsql;
 
 create trigger grade_exists_constraint
-    before insert on course_offering
+    before insert on grades
     for each row
     execute procedure grade_exists_constraint_trigger();
     
