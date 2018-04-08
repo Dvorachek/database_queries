@@ -109,21 +109,26 @@ if (select count(*)
         with recursive
             all_prereqs as (select * from prerequisites
                             union
-                            select P1.course_code, P1.term_code, P2.prereq_code
+                            select P1.course_code, P2.term_code, P2.prereq_code
                             from 
                                 all_prereqs as P1
                               inner join
                                 prerequisites as P2
-                              on P1.prereq_code = P2.course_code)
-        select distinct prereq_code, term_code from all_prereqs where course_code = new.course_code and term_code = new.term_code and prereq_code <> course_code
-          except
-        select distinct P1.course_code as prereq_code, P2.term_code
+                              on P1.prereq_code = P2.course_code),
+            reduced as (select * from all_prereqs where course_code <> prereq_code)
+        
+        select prereq_code from reduced where course_code=new.course_code and term_code=new.term_code
+         
+    except
+
+        
+    select distinct P1.course_code as prereq_code
         from enrollment as P1
           left join
         grades as P2
           on P1.student_id=P2.student_id
         where (P1.student_id = new.student_id and P2.grade >= 50)
-        or (P1.student_id = new.student_id and P2.term_code < new.term_code and P2.grade is NULL)) as X) > 0
+        or (P1.student_id = new.student_id and P1.term_code < new.term_code and P2.grade is NULL)) as X) > 0
 then
     raise exception 'Student does not meet the prerequisites for the course.';
 end if;
