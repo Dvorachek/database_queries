@@ -109,7 +109,7 @@ if (select count(*)
         with recursive
             all_prereqs as (select * from prerequisites
                             union
-                            select P1.course_code, P2.prereq_code
+                            select P1.course_code, P1.term_code, P2.prereq_code
                             from 
                                 all_prereqs as P1
                               inner join
@@ -194,10 +194,9 @@ create function student_exists_constraint_trigger()
 returns trigger as
 $BODY$
     begin
-        if (select count(*) from students where student_name = new.student_name and student_id = new.student_id) > 1
+        if (select count(*) from students where student_name = new.student_name and student_id = new.student_id) > 1 then
             return NULL;
         end if;
-    return new;
     end
 $BODY$
 language plpgsql;
