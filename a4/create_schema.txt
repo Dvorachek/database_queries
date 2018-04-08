@@ -230,7 +230,7 @@ create constraint trigger student_enrolled_constraint
     for each row
     execute procedure student_enrolled_constraint_trigger();
 
-
+/*
 insert into students values ('Dylan', 'V00863468');
 insert into students values ('Justin', 'V00863469');
 insert into students values ('Chad', 'V00863470');
@@ -245,7 +245,7 @@ insert into enrollment values ('V00863469', 'CSC 110', '201709');
 insert into enrollment values ('V00863470', 'CSC 110', '201709');
 
 
-/*
+
 insert into prerequisites values ('CSC 115', 'CSC 110');
 insert into prerequisites values ('CSC 116', 'CSC 111');
 insert into prerequisites values ('CSC 225', 'CSC 115');
