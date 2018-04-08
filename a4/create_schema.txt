@@ -193,14 +193,12 @@ drop function if exists student_exists_constraint_trigger();
 create function student_exists_constraint_trigger()
 returns trigger as
 $BODY$
-begin
-if (select count(*) from students where student_name = new.student_name and student_id = new.student_id) > 0
-then
-    return NULL;
-else
+    begin
+        if (select count(*) from students where student_name = new.student_name and student_id = new.student_id) > 1
+            return NULL;
+        end if;
     return new;
-end if;
-end
+    end
 $BODY$
 language plpgsql;
 
@@ -216,12 +214,11 @@ create function course_exists_constraint_trigger()
 returns trigger as
 $BODY$
     begin
-        if (select count(*) from courses where course_code = new.course_code) > 0 then
+        if (select count(*) from courses where course_code = new.course_code) > 1 then
             return NULL;
-        else
-            return new;
         end if;
-    end;
+    return new;
+    end
 $BODY$
 language plpgsql;
 
@@ -238,18 +235,17 @@ drop function if exists student_enrolled_constraint_trigger();
 create function student_enrolled_constraint_trigger()
 returns trigger as
 $BODY$
-begin
-if (select count(*) 
-    from enrollment 
-    where student_id = new.student_id
-    and course_code = new.course_code
-    and term_code = new.term_code) > 0
-then
-    return NULL;
-else
-    return new;
-end if;
-end
+    begin
+        if (select count(*) 
+            from enrollment 
+            where student_id = new.student_id
+            and course_code = new.course_code
+            and term_code = new.term_code) > 1
+        then
+            return NULL;
+        end if;
+        return new;
+    end
 $BODY$
 language plpgsql;
 
