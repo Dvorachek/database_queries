@@ -66,7 +66,7 @@ with open(input_filename) as f:
         
         #Do something with the data here
         #Make sure to catch any exceptions that occur and roll back the transaction if a database error occurs.
-        e(cursor.execute("insert into grades values( %s, %s, %s, %s );", (student_id, course_code, term, grade)), conn)
+        e(cursor.execute("insert into grades values( %s, %s, %s, %s ) on conflict (student_id, course_code, term_code) do update set grade = %s;", (student_id, course_code, term, grade, grade)), conn)
 
 conn.commit()
 cursor.close()
