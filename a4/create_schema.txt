@@ -179,11 +179,6 @@ create constraint trigger invalid_deletion_constraint
 
 
 
-
-
-
-
-
 drop function if exists student_exists_constraint_trigger();
 
 create function student_exists_constraint_trigger()
@@ -203,6 +198,29 @@ create constraint trigger student_exists_constraint
     after insert on students
     for each row
     execute procedure student_exists_constraint_trigger();
+
+
+
+
+drop function if exists course_exists_constraint_trigger();
+
+create function course_exists_constraint_trigger()
+returns trigger as
+$BODY$
+begin
+if (select count(*) from courses where course_code = new.course_code) > 0
+then
+    return NULL;
+end if;
+return new;
+end
+$BODY$
+language plpgsql;
+
+create constraint trigger course_exists_constraint
+    after insert on students
+    for each row
+    execute procedure course_exists_constraint_trigger();
 
 
 
