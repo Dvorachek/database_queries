@@ -78,20 +78,26 @@ e(cursor.execute("""select *
     grade
     where course_code = %s and term_code = %s;""", (course_code, term)), conn)  # so many joins
 
+    
+
+    
 row = cursor.fetchone()
 
-student_id, _, _, course_name, instructor_name, capacity, student_name, grade = row
+
+student_id, _, _, course_name, instructor_name, capacity, student_name = row[:6]
+
+grade = None if len(row) < 7 else row[6]
 
 print_header(course_code, course_name, term, instructor_name)
 
 row_count = 0
 while row:
-    if not grade:
-        grade = None
-    print_row(student_id, student_name, grade)
     row_count += 1
+    student_id, _, _, _, _, _, student_name = row
+    grade = None if len(row) < 7 else row[6]
+    print_row(student_id, student_name, grade)
     row = cursor.fetchone()
-    student_id, _, _, _, _, _, student_name, grade = row
+    
     
 print_footer(row_count, capacity)
 
