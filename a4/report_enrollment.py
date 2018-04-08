@@ -33,7 +33,8 @@ cursor.execute("""select P1.course_code, P1.term_code, P1.course_name, P1.instru
     from course_offering as P1 left join enrollment as P2
     on P1.course_code = P2.course_code
     and P1.term_code = P2.term_code
-    group by P1.course_code, P1.term_code, P1.course_name, P1.instructor_name, P1.capacity;
+    group by P1.course_code, P1.term_code, P1.course_name, P1.instructor_name, P1.capacity
+    order by P1.term_code, P1.course_code;
     """)
 
 rows_found = 0
