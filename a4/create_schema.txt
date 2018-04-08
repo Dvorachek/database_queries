@@ -175,16 +175,10 @@ create function invalid_deletion_constraint_trigger()
 returns trigger as
 $BODY$
 begin
-if old.grade == NULL
-then
-    delete from grades
-    where student_id = new.student_id
-    and course_code = new.course_code
-    and term_code = new.term_code;
-else
+if (old.grade is not NULL) then
     raise exception 'Cannot drop a course once a final grade has been assigned';
 end if;
---return new;
+return old;
 end
 $BODY$
 language plpgsql;
