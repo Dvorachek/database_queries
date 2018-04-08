@@ -63,7 +63,7 @@ with open(input_filename) as f:
         if add_or_drop == 'ADD':
             e(cursor.execute("insert into students values( %s, %s );", (student_name, student_id)), conn)
             e(cursor.execute("insert into enrollment values( %s, %s, %s );", (student_id, course_code, term)), conn)
-            e(cursor.execute("insert into grades values( %s, %s, %s, NULL );", (student_id, course_code, term)), conn)
+            e(cursor.execute("insert into grades values( %s, %s, %s, NULL ) on conflict (student_id, course_code, term_code) do update set grade = NULL;", (student_id, course_code, term)), conn)
         elif add_or_drop == 'DROP': 
             e(cursor.execute("delete from grades where student_id = %s and course_code = %s and term_code = %s;", (student_id, course_code, term)), conn)
             e(cursor.execute("delete from enrollment where student_id = %s and course_code = %s and term_code = %s;", (student_id, course_code, term)), conn)
