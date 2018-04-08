@@ -61,14 +61,10 @@ with open(input_filename) as f:
         #Do something with the data here
         #Make sure to catch any exceptions that occur and roll back the transaction if a database error occurs.
         if add_or_drop == 'ADD':
-            e(cursor.execute("insert into students values( %s, %s ) on conflict (student_id, student_name) do nothing;", (student_name, student_id)), conn)
-           # e(cursor.execute("insert into course_offering values( %s, %s );", (course_code, term)), conn)
-            e(cursor.execute("insert into enrollment values( %s, %s, %s ) on conflict (student_id, course_code, term_code) do nothing;", (student_id, course_code, term)), conn)
-            #e(cursor.execute("insert into grades values( %s, %s, %s );", (student_id, course_code, term)), conn)
+            e(cursor.execute("insert into students values( %s, %s );", (student_name, student_id)), conn)
+            e(cursor.execute("insert into enrollment values( %s, %s, %s );", (student_id, course_code, term)), conn)
         elif add_or_drop == 'DROP': 
             e(cursor.execute("delete from enrollment where student_id = %s and course_code = %s and term_code = %s;", (student_id, course_code, term)), conn)
-            # e(cursor.execute("delete from grades where student_id = %s and course_code = %s and term_code = %s;", (student_id, course_code, term)), conn)
-            
 
 conn.commit()
 cursor.close()
