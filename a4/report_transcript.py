@@ -62,6 +62,10 @@ conn = psycopg2.connect(dbname=psql_db, user=psql_user, password=psql_password, 
 
 cursor = conn.cursor()
 
+e(cursor.execute("select student_id, student_name from students where student_id = %s;", (student_id,)), conn)
+_, student_name = cursor.fetchone()
+print_header(student_id, student_name)
+
 e(cursor.execute("""select student_id, student_name, course_code, term_code, course_name, grade
     from students
     natural join
@@ -69,11 +73,10 @@ e(cursor.execute("""select student_id, student_name, course_code, term_code, cou
     natural join
     course_offering
     where student_id = %s;""", (student_id,)), conn)
-
+    
 row = cursor.fetchone()
 if row:
     _,student_name,_,_,_ = row[:5]
-    print_header(student_id, student_name)
 while row:
     grade = None if len(row) < 5 else row[5]
     _,_,course_code,term,course_name = row[:5]
