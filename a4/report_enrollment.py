@@ -29,9 +29,11 @@ conn = psycopg2.connect(dbname=psql_db, user=psql_user, password=psql_password, 
 
 cursor = conn.cursor()
 
-cursor.execute("""select course_code, term_code, course_name, instructor_name, count(student_id), capacity
-    from course_offering natural join enrollment
-    group by course_code, term_code, course_name, instructor_name, capacity;
+cursor.execute("""select P1.course_code, P1.term_code, P1.course_name, P1.instructor_name, count(P2.student_id), P1.capacity
+    from course_offering as P1 left join enrollment as P2
+    on P1.course_code = P2.course_code
+    and P1.term_code = P2.term_code
+    group by P1.course_code, P1.term_code, P1.course_name, P1.instructor_name, P1.capacity;
     """)
 
 rows_found = 0
