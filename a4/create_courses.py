@@ -23,7 +23,7 @@ conn = psycopg2.connect(dbname=psql_db, user=psql_user, password=psql_password, 
 
 cursor = conn.cursor()
 
-def e(func, conn):  # created a wrapper for error handling.. because who would really want to write this more than once?
+def e(func, conn):  # created a wrapper for error handling.. 
     def wrapper(*args, **kwargs):
         try:
             func(*args, **kwargs)
@@ -56,12 +56,12 @@ with open(input_filename) as f:
             print("Error: Invalid input line \"%s\""%(','.join(row)), file=sys.stderr)
             #Maybe abort the active transaction and roll back at this point?
             break
-        code, name, term, instructor, capacity = row[0:5]
+        code, name, term, instructor, capacity = row[:5]
         prerequisites = row[5:] #List of zero or more items
         
         #Do something with the data here
         #Make sure to catch any exceptions that occur and roll back the transaction if a database error occurs.
-        e(cursor.execute("insert into courses values( %s );", (code,)), conn)
+        e(cursor.execute("insert into courses values( %s ) on conflict (course_code) do nothing;", (code,)), conn)
         e(cursor.execute("insert into course_offering values( %s, %s, %s, %s, %s );", (code, name, term, instructor, capacity)), conn)
         [e(cursor.execure("insert into prerequisites values( %s, %s );", (prerequisites[0], pre_req)), conn) for pre_req in prerequisites[1:]]
         

@@ -23,7 +23,7 @@ conn = psycopg2.connect(dbname=psql_db, user=psql_user, password=psql_password, 
 
 cursor = conn.cursor()
 
-def e(func, conn):  # created a wrapper for error handling.. because who would really want to write this more than once?
+def e(func, conn):  # created a wrapper for error handling..
     def wrapper(*args, **kwargs):
         try:
             func(*args, **kwargs)
@@ -61,7 +61,7 @@ with open(input_filename) as f:
         #Do something with the data here
         #Make sure to catch any exceptions that occur and roll back the transaction if a database error occurs.
         if add_or_drop == 'ADD':
-            e(cursor.execute("insert into students values( %s, %s );", (student_name, student_id)), conn)
+            e(cursor.execute("insert into students values( %s, %s ) on conflict (student_name, student_id) do nothing;", (student_name, student_id)), conn)
             e(cursor.execute("insert into enrollment values( %s, %s, %s );", (student_id, course_code, term)), conn)
             e(cursor.execute("insert into grades values( %s, %s, %s );", (student_id, course_code, term)), conn)
         elif add_or_drop == 'DROP': 
