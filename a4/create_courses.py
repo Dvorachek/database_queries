@@ -62,7 +62,7 @@ with open(input_filename) as f:
         #Do something with the data here
         #Make sure to catch any exceptions that occur and roll back the transaction if a database error occurs.
         e(cursor.execute("insert into courses values( %s ) on conflict (course_code) do nothing;", (code,)), conn)
-        e(cursor.execute("insert into course_offering values( %s, %s, %s, %s, %s );", (code, name, term, instructor, capacity)), conn)
+        e(cursor.execute("insert into course_offering values( %s, %s, %s, %s, %s );", (code, term, code, instructor, capacity)), conn)
         [e(cursor.execute("insert into prerequisites values( %s, %s, %s );", (code, term, pre_req)), conn) for pre_req in prerequisites]
         
       
