@@ -75,7 +75,7 @@ e(cursor.execute("""select *
     natural join
     students
     natural join
-    grade
+    grades
     where course_code = %s and term_code = %s;""", (course_code, term)), conn)  # so many joins
 
     
