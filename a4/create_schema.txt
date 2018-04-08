@@ -123,7 +123,7 @@ if (select count(*)
         grades as P2
           on P1.student_id=P2.student_id
         where (P1.student_id = new.student_id and P2.grade >= 50)
-        or (P1.student_id = new.student_id and P1.term_code < new.term_code) as X) > 0
+        or (P1.student_id = new.student_id and P1.term_code < new.term_code and P2.grade = NULL)) as X) > 0
 then
     raise exception 'Student does not meet the prerequisites for the course.';
 end if;
