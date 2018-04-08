@@ -133,13 +133,12 @@ end
 $BODY$
 language plpgsql;
 
+
 create constraint trigger enrollment_possible_constraint
     after insert or update on enrollment
     for each row
     execute procedure enrollment_possible_constraint_trigger();
 
-
-    
 drop function if exists check_capacity_constraint_trigger();
 
 create function check_capacity_constraint_trigger()
@@ -190,7 +189,7 @@ create constraint trigger invalid_deletion_constraint
     for each row
     execute procedure invalid_deletion_constraint_trigger();
 
-
+--==============================================================================
 
 drop function if exists student_exists_constraint_trigger();
 
@@ -206,8 +205,8 @@ $BODY$
 $BODY$
 language plpgsql;
 
-create constraint trigger student_exists_constraint
-    after insert on students
+create trigger student_exists_constraint
+    before insert on students
     for each row
     execute procedure student_exists_constraint_trigger();
 
@@ -218,16 +217,16 @@ create function course_exists_constraint_trigger()
 returns trigger as
 $BODY$
     begin
-        if (select count(*) from courses where course_code = new.course_code) > 1 then
+        if (select count(*) from courses where course_code = new.course_code) > 0 then
             return NULL;
         end if;
-    return new;
+        return new;
     end
 $BODY$
 language plpgsql;
 
-create constraint trigger course_exists_constraint
-    after insert on courses
+create trigger course_exists_constraint
+    before insert on courses
     for each row
     execute procedure course_exists_constraint_trigger();
 
@@ -244,7 +243,7 @@ $BODY$
             from enrollment 
             where student_id = new.student_id
             and course_code = new.course_code
-            and term_code = new.term_code) > 1
+            and term_code = new.term_code) > 0
         then
             return NULL;
         end if;
@@ -253,10 +252,59 @@ $BODY$
 $BODY$
 language plpgsql;
 
-create constraint trigger student_enrolled_constraint
-    after insert on or update enrollment
+create trigger student_enrolled_constraint
+    before insert or update on enrollment
     for each row
     execute procedure student_enrolled_constraint_trigger();
+
+----------#########################################################
+drop function if exists offering_exists_constraint_trigger();
+
+create function offering_exists_constraint_trigger()
+returns trigger as
+$BODY$
+    begin
+        if (select count(*) 
+            from course_offering 
+            where course_code = new.course_code
+            and term_code = new.term_code) > 0
+        then
+            return NULL;
+        end if;
+        return new;
+    end
+$BODY$
+language plpgsql;
+
+create trigger offering_exists_constraint
+    before insert or update on course_offering
+    for each row
+    execute procedure offering_exists_constraint_trigger();
+    
+--000000000000000000000000000000000000000000000000000000000000000
+drop function if exists prereq_exists_constraint_trigger();
+
+create function prereq_exists_constraint_trigger()
+returns trigger as
+$BODY$
+    begin
+        if (select count(*) 
+            from prerequisites 
+            where course_code = new.course_code
+            and term_code = new.term_code
+            and prereq_code = new.prereq_code) > 0
+        then
+            return NULL;
+        end if;
+        return new;
+    end
+$BODY$
+language plpgsql;
+
+create trigger prereq_exists_constraint
+    before insert or update on prerequisites
+    for each row
+    execute procedure prereq_exists_constraint_trigger();
 
 /*
 insert into students values ('Dylan', 'V00863468');
