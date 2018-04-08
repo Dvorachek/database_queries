@@ -186,7 +186,7 @@ $BODY$
 language plpgsql;
 
 create constraint trigger invalid_deletion_constraint
-    before delete on grades
+    after delete on grades
     for each row
     execute procedure invalid_deletion_constraint_trigger();
 
@@ -207,7 +207,7 @@ $BODY$
 language plpgsql;
 
 create constraint trigger student_exists_constraint
-    before insert on students
+    after insert on students
     for each row
     execute procedure student_exists_constraint_trigger();
 
@@ -227,7 +227,7 @@ $BODY$
 language plpgsql;
 
 create constraint trigger course_exists_constraint
-    before insert on courses
+    after insert on courses
     for each row
     execute procedure course_exists_constraint_trigger();
 
@@ -254,7 +254,7 @@ $BODY$
 language plpgsql;
 
 create constraint trigger student_enrolled_constraint
-    before insert on enrollment
+    after insert on or update enrollment
     for each row
     execute procedure student_enrolled_constraint_trigger();
 
