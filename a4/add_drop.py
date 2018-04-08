@@ -57,7 +57,7 @@ with open(input_filename) as f:
             #Maybe abort the active transaction and roll back at this point?
             break
         add_or_drop,student_id,student_name,course_code,term = row
-        print(row)
+
         #Do something with the data here
         #Make sure to catch any exceptions that occur and roll back the transaction if a database error occurs.
         if add_or_drop == 'ADD':
