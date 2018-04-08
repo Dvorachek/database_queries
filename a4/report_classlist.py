@@ -78,43 +78,18 @@ e(cursor.execute("""select *
     grades
     where course_code = %s and term_code = %s;""", (course_code, term)), conn)  # so many joins
 
-    
-
-    
 row = cursor.fetchone()
-
-
-_, _, _, course_name, instructor_name, capacity, _ = row[:6]
-
+_, _, _, course_name, instructor_name, capacity, _ = row[:7]
 print_header(course_code, course_name, term, instructor_name)
-
 row_count = 0
 while row:
     row_count += 1
-    student_id, _, _, _, _, _, student_name = row
-    grade = None if len(row) < 7 else row[6]
+    student_id, _, _, _, _, _, student_name = row[7]
+    grade = None if len(row) < 7 else row[7]
     print_row(student_id, student_name, grade)
     row = cursor.fetchone()
-    
-    
-    
+  
 print_footer(row_count, capacity)
 
 cursor.close()
 conn.close()
-
-# Mockup: Print a class list for CSC 370
-# course_code = 'CSC 370'
-# course_name = 'Database Systems'
-# course_term = 201801
-# instructor_name = 'Bill Bird'
-# print_header(course_code, course_name, course_term, instructor_name)
-
-#Print records for a few students
-# print_row('V00123456', 'Rebecca Raspberry', 81)
-# print_row('V00123457', 'Alissa Aubergine', 90)
-# print_row('V00123458', 'Neal Naranja', 83)
-
-#Print the last line (enrollment/max_capacity)
-# print_footer(3,150)
-

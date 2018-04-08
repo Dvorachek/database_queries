@@ -9,7 +9,7 @@
 
 import psycopg2, sys
 
-def e(func, conn):  # created a wrapper for error handling.. because who would really want to write this more than once?
+def e(func, conn):  # created a wrapper for error handling..
     def wrapper(*args, **kwargs):
         try:
             func(*args, **kwargs)
@@ -18,13 +18,13 @@ def e(func, conn):  # created a wrapper for error handling.. because who would r
             print("Caught a ProgrammingError:",file=sys.stderr)
             print(err,file=sys.stderr)
             conn.rollback()
-            sys.exit(1)
+            sys.exit(0)
         except psycopg2.IntegrityError as err: 
             #IntegrityError occurs when a constraint (primary key, foreign key, check constraint or trigger constraint) is violated.
             print("Caught an IntegrityError:",file=sys.stderr)
             print(err,file=sys.stderr)
             conn.rollback()
-            sys.exit(1)
+            sys.exit(0)
         except psycopg2.InternalError as err:  
             #InternalError generally represents a legitimate connection error, but may occur in conjunction with user defined functions.
             #In particular, InternalError occurs if you attempt to continue using a cursor object after the transaction has been aborted.
@@ -32,7 +32,7 @@ def e(func, conn):  # created a wrapper for error handling.. because who would r
             print("Caught an IntegrityError:",file=sys.stderr)
             print(err,file=sys.stderr)
             conn.rollback()
-            sys.exit(1)
+            sys.exit(0)
 
 def print_header(student_id, student_name):
     print("Transcript for %s (%s)"%(str(student_id), str(student_name)) )
@@ -69,11 +69,10 @@ e(cursor.execute("""select student_id, student_name, course_code, term_code, cou
     natural join
     course_offering
     where student_id = %s;""", (student_id,)), conn)
-    
+
+row = cursor.fetchone()
 _,student_name,_,_,_ = row[:5]
-
 print_header(student_id, student_name)
-
 while row:
     grade = None if len(row) < 5 else row[5]
     _,_,course_code,term,course_name = row[:5]
@@ -82,12 +81,3 @@ while row:
 
 cursor.close()
 conn.close()
-# Mockup: Print a transcript for V00123456 (Rebecca Raspberry)
-# student_id = 'V00123456'
-# student_name = 'Rebecca Raspberry'
-# print_header(student_id, student_name)
-
-
-# print_row(201709,'CSC 110','Fundamentals of Programming: I', 90)
-# print_row(201709,'CSC 187','Recursive Algorithm Design', None) #The special value None is used to indicate that no grade is assigned.
-# print_row(201801,'CSC 115','Fundamentals of Programming: II', 75)
