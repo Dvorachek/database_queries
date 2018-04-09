@@ -35,7 +35,6 @@ def e(func, conn):  # wrapper for error handling
             print("Caught a ProgrammingError:",file=sys.stderr)
             print(err,file=sys.stderr)
             conn.rollback()
-            cursor.close()
             conn.close()
             sys.exit(1)
         except psycopg2.IntegrityError as err: 
@@ -43,7 +42,6 @@ def e(func, conn):  # wrapper for error handling
             print("Caught an IntegrityError:",file=sys.stderr)
             print(err,file=sys.stderr)
             conn.rollback()
-            cursor.close()
             conn.close()
             sys.exit(1)
         except psycopg2.InternalError as err:  
@@ -53,7 +51,6 @@ def e(func, conn):  # wrapper for error handling
             print("Caught an IntegrityError:",file=sys.stderr)
             print(err,file=sys.stderr)
             conn.rollback()
-            cursor.close()
             conn.close()
             sys.exit(1)
 
