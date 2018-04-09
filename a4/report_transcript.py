@@ -1,6 +1,9 @@
 # report_transcript.py
 # CSC 370 - Spring 2018 - Starter code for Assignment 4
 #
+# Dylan Dvorachek
+# V00863468
+#
 # The code below generates a mockup of the output of report_transcript.py
 # as specified in the assignment. You can copy and paste the functions in this
 # program into your solution to ensure the correct formatting.
@@ -72,7 +75,8 @@ e(cursor.execute("""select student_id, student_name, course_code, term_code, cou
     grades
     natural join
     course_offering
-    where student_id = %s;""", (student_id,)), conn)
+    where student_id = %s
+    order by term_code, course_code;""", (student_id,)), conn)
     
 row = cursor.fetchone()
 if row:

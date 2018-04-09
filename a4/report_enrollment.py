@@ -1,6 +1,9 @@
 # report_enrollment.py
 # CSC 370 - Spring 2018 - Starter code for Assignment 4
 #
+# Dylan Dvorachek
+# V00863468
+#
 # The code below generates a mockup of the output of report_enrollment.py
 # as specified in the assignment. You can copy and paste the functions in this
 # program into your solution to ensure the correct formatting.

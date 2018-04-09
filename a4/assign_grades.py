@@ -1,6 +1,9 @@
 # assign_grades.py
 # CSC 370 - Spring 2018 - Starter code for Assignment 4
 #
+# Dylan Dvorachek
+# V00863468
+#
 #
 # B. Bird - 02/26/2018
 
