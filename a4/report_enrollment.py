@@ -45,6 +45,5 @@ while row:
     row = cursor.fetchone()
     rows_found += 1
 
-print("Read %d rows"%rows_found)
 cursor.close()
 conn.close()
