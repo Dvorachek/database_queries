@@ -12,7 +12,7 @@
 
 import psycopg2, sys
 
-def e(func, conn):  # created a wrapper for error handling..
+def e(func, conn):  # wrapper for error handling
     def wrapper(*args, **kwargs):
         try:
             func(*args, **kwargs)
