@@ -16,7 +16,7 @@ if len(sys.argv) < 2:
 input_filename = sys.argv[1]
 
 # Open your DB connection here
-psql_user = 'dvorache'  # when I started at uvic the maximum character lenght was 8.. I'm glad it's now been upgraded
+psql_user = 'dvorache'  # when I started at uvic the maximum character lenght was 8..
 psql_db = 'dvorache'
 psql_password = 'pineapple'
 psql_server = 'studdb2.csc.uvic.ca'
@@ -26,7 +26,7 @@ conn = psycopg2.connect(dbname=psql_db, user=psql_user, password=psql_password, 
 
 cursor = conn.cursor()
 
-def e(func, conn):  # created a wrapper for error handling.. because who would really want to write this more than once?
+def e(func, conn):  # wrapper for error handling
     def wrapper(*args, **kwargs):
         try:
             func(*args, **kwargs)
