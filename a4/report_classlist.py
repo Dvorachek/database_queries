@@ -89,8 +89,8 @@ while row:
     grade = None if len(row) < 7 else row[7]
     print_row(student_id, student_name, grade)
     row = cursor.fetchone()
-  
-print_footer(row_count, capacity)
+if not row:
+    print_footer(row_count, capacity)
 
 cursor.close()
 conn.close()

@@ -284,32 +284,7 @@ create trigger offering_exists_constraint
     for each row
     execute procedure offering_exists_constraint_trigger();
     
-   /* 
-drop function if exists grade_exists_constraint_trigger();
-
-create function grade_exists_constraint_trigger()
-returns trigger as
-$BODY$
-    begin
-        if (select count(*) 
-            from grades 
-            where student_id = new.student_id
-            and course_code = new.course_code
-            and term_code = new.term_code) > 0
-        then
-            return NULL;
-        end if;
-        return new;
-    end
-$BODY$
-language plpgsql;
-
-create trigger grade_exists_constraint
-    before insert on grades
-    for each row
-    execute procedure grade_exists_constraint_trigger();
-    */
---000000000000000000000000000000000000000000000000000000000000000
+--WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
 drop function if exists prereq_exists_constraint_trigger();
 
 create function prereq_exists_constraint_trigger()
@@ -333,60 +308,3 @@ create trigger prereq_exists_constraint
     before insert or update on prerequisites
     for each row
     execute procedure prereq_exists_constraint_trigger();
-
-/*
-insert into students values ('Dylan', 'V00863468');
-insert into students values ('Justin', 'V00863469');
-insert into students values ('Chad', 'V00863470');
-insert into students values ('Ethan', 'V00863471');
-
-insert into courses values ('CSC 110');
-
-insert into course_offering values ('CSC 110', 'Fundamentals 1', '201709', 'Bill', 3);
-
-insert into enrollment values ('V00863468', 'CSC 110', '201709');
-insert into enrollment values ('V00863469', 'CSC 110', '201709');
-insert into enrollment values ('V00863470', 'CSC 110', '201709');
-
-
-
-insert into prerequisites values ('CSC 115', 'CSC 110');
-insert into prerequisites values ('CSC 116', 'CSC 111');
-insert into prerequisites values ('CSC 225', 'CSC 115');
-insert into prerequisites values ('CSC 226', 'CSC 225');
-insert into prerequisites values ('CSC 230', 'CSC 115');
-insert into prerequisites values ('SENG 265', 'CSC 115');
-insert into prerequisites values ('CSC 330', 'CSC 226');
-insert into prerequisites values ('CSC 330', 'CSC 230');
-insert into prerequisites values ('CSC 330', 'SENG 265');
-insert into prerequisites values ('CSC 370', 'CSC 226');
-insert into prerequisites values ('CSC 370', 'SENG 265');
-insert into prerequisites values ('SENG 474', 'SENG 265');
-
-select * from prerequisites;
-
-
-with
-  prereqs as (select * from prerequisites),
-  prereqs2 as (select * from prerequisites
-  			   union
-  			   select P1.course_code,  P2.prereq_code
-  			   	from 
-  			   		prerequisites as P1
-  			   	  inner join
-  			   	  	prerequisites as P2
-  			   	  on P1.prereq_code = P2.course_code)
-select * from prereqs2 where course_code = 'SENG 474';
-
-
-with recursive
-  all_prereqs as (select * from prerequisites
-  			   union
-  			   select P1.course_code, P2.prereq_code
-  			   	from 
-  			   		all_prereqs as P1
-  			   	  inner join
-  			   	  	prerequisites as P2
-  			   	  on P1.prereq_code = P2.course_code)
-select * from all_prereqs where course_code = 'SENG 474';
-*/
