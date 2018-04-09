@@ -12,7 +12,7 @@
 
 import psycopg2, sys
 
-def e(func, conn):  # created a wrapper for error handling.. because who would really want to write this more than once?
+def e(func, conn):  # wrapper for error handling
     def wrapper(*args, **kwargs):
         try:
             func(*args, **kwargs)
@@ -21,12 +21,14 @@ def e(func, conn):  # created a wrapper for error handling.. because who would r
             print("Caught a ProgrammingError:",file=sys.stderr)
             print(err,file=sys.stderr)
             conn.rollback()
+            conn.close()
             sys.exit(1)
         except psycopg2.IntegrityError as err: 
             #IntegrityError occurs when a constraint (primary key, foreign key, check constraint or trigger constraint) is violated.
             print("Caught an IntegrityError:",file=sys.stderr)
             print(err,file=sys.stderr)
             conn.rollback()
+            conn.close()
             sys.exit(1)
         except psycopg2.InternalError as err:  
             #InternalError generally represents a legitimate connection error, but may occur in conjunction with user defined functions.
@@ -35,6 +37,7 @@ def e(func, conn):  # created a wrapper for error handling.. because who would r
             print("Caught an IntegrityError:",file=sys.stderr)
             print(err,file=sys.stderr)
             conn.rollback()
+            conn.close()
             sys.exit(1)
             
 def print_header(course_code, course_name, term, instructor_name):
@@ -61,7 +64,7 @@ course_code, term = sys.argv[1:3]
 #'''
 
 # Open your DB connection here
-psql_user = 'dvorache'  # when I started at uvic the maximum character lenght was 8.. I'm glad it's now been upgraded
+psql_user = 'dvorache'
 psql_db = 'dvorache'
 psql_password = 'pineapple'
 psql_server = 'studdb2.csc.uvic.ca'
@@ -80,7 +83,7 @@ e(cursor.execute("""select *
     natural join
     grades
     where course_code = %s and term_code = %s
-    order by student_id;""", (course_code, term)), conn)  # so many joins
+    order by student_id;""", (course_code, term)), conn)
 
 row = cursor.fetchone()
 if row:
